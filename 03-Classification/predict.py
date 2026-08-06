@@ -22,6 +22,18 @@ def predict():
         'churn_prediction': bool(churn)
     }
     return jsonify(result)
-    
+
+# Additional code to ensure Flask doesn't return 404 because there's no get rout
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({
+        "service": "churn-prediction",
+        "status": "healthy"
+    }), 200
+
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "healthy"}), 200
+
 if __name__ == "__main__":
     app.run(debug=True, host = '0.0.0.0', port=9696)
